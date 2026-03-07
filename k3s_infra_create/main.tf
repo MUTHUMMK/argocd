@@ -97,12 +97,13 @@ resource "aws_instance" "k3s_server" {
               
               
               # Deploy your container
-              sudo kubectl run myapp --image=muthummkdh/muthu26:7bb0fb5 --port=80
+              sudo kubectl run nginx-5785977ddb-r9lmz --image=muthummkdh/muthu26:7bb0fb5 --port=80
               
               # Expose service
-              sudo kubectl expose pod myapp --type=NodePort --port=80 --target-port=80
+              sudo kubectl expose pod nginx-5785977ddb-r9lmz --type=NodePort --port=80 --target-port=80
               
-              sudo kubectl apply -f - <<< $'apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: myapp-ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /\n        pathType: Prefix\n        backend:\n          service:\n            name: myapp\n            port:\n              number: 80'
+              sudo kubectl apply -f - <<< $'apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: nginx-ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /\n        pathType: Prefix\n        backend:\n          service:\n            name: nginx-5785977ddb-r9lmz\n            port:\n              number: 80'
+              
               EOF
 
   tags = {
